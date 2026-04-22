@@ -20,6 +20,29 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Arquitetura de features
+
+O projeto segue uma arquitetura orientada a dominio em `src/features`.
+
+Cada dominio possui uma estrutura padrao:
+
+- `components/`: componentes de interface do dominio
+- `hooks/`: regras de estado e composicao de dados no cliente
+- `services/`: funcoes de acesso a dados (API ou mocks)
+- `types.ts`: contratos e tipos compartilhados no dominio
+- `index.ts`: barrel file para exportacoes publicas do dominio
+
+Dominios atuais:
+
+- `home`
+- `auth`
+- `dashboard`
+- `transactions`
+
+## Roadmap
+
+O plano de evolucao do produto esta em `ROADMAP.md`.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
