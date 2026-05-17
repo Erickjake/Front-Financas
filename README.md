@@ -1,36 +1,131 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Front Finanças
 
-## Getting Started
+Painel de controle financeiro pessoal em Next.js 16, conectado a uma API REST NestJS.
 
-First, run the development server:
+## Pré-requisitos
+
+- Node.js 20+
+- API Nest rodando em `http://localhost:3000`
+
+## Configuração
+
+```bash
+cd front-financas
+cp .env.example .env.local
+npm install
+```
+
+Variáveis disponíveis (ver [`.env.example`](.env.example)):
+
+| Variável | Descrição |
+|----------|-----------|
+| `NEXT_PUBLIC_API_URL` | URL da API no SSR (padrão: `http://localhost:3000`) |
+| `API_PROXY_URL` | Destino do rewrite `/api/*` no dev (padrão: `http://127.0.0.1:3000`) |
+| `AUTH_COOKIE_NAME` | Cookie de sessão customizado (opcional) |
+
+## Desenvolvimento
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3002](http://localhost:3002). O front usa a porta **3002**; a API deve estar na **3000**.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Script | Descrição |
+|--------|-----------|
+| `npm run dev` | Servidor de desenvolvimento (porta 3002) |
+| `npm run build` | Build de produção |
+| `npm run start` | Servidor de produção (porta 3002) |
+| `npm run lint` | Biome check |
+| `npm run format` | Biome format |
+| `npm run test` | Vitest |
 
-## Learn More
+## Arquitetura de features
 
-To learn more about Next.js, take a look at the following resources:
+O projeto segue arquitetura orientada a domínio em `src/features`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Cada domínio possui:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `components/` — UI do domínio
+- `hooks/` — estado e composição no cliente
+- `services/` — chamadas HTTP via `api-client`
+- `types.ts` — contratos TypeScript
+- `index.ts` — barrel exports
 
-## Deploy on Vercel
+Domínios:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `home` — landing pública
+- `auth` — login, registro e sessão
+- `dashboard` — resumo e gráficos
+- `transactions` — CRUD de receitas/despesas
+- `categories` — categorias de transação
+- `goals` — metas financeiras (API `/budgets`)
+- `export` — exportação CSV/PDF
+- `backup` — snapshot e restore
+- `user` — perfil do usuário
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Rotas autenticadas compartilham o layout `AppShell` via route group `(app)`.
+
+## Roadmap
+
+O plano de evolução está em [`ROADMAP.md`](ROADMAP.md).
+
+## Endpoints da API
+
+Auth:
+
+- `POST /auth/login`
+- `POST /auth/refresh`
+- `POST /auth/logout`
+
+Usuários:
+
+- `POST /users`
+- `GET /users`
+- `GET /users/me`
+- `GET /users/:id`
+- `PATCH /users/:id`
+- `DELETE /users/:id`
+
+Transações (protegidos):
+
+- `GET /transactions?page=&limit=`
+- `POST /transactions`
+- `GET /transactions/:id`
+- `PUT /transactions/:id`
+- `DELETE /transactions/:id`
+
+Categorias:
+
+- `POST /categories`
+- `GET /categories`
+- `GET /categories/:id`
+- `PATCH /categories/:id`
+- `DELETE /categories/:id`
+
+Orçamentos / metas (protegidos):
+
+- `POST /budgets`
+- `GET /budgets`
+- `GET /budgets/status?month=&year=`
+- `GET /budgets/:id`
+- `PATCH /budgets/:id`
+- `DELETE /budgets/:id`
+
+Relatórios (protegidos):
+
+- `GET /reports/summary`
+- `GET /reports/by-category`
+- `GET /reports/monthly`
+
+Exportação (protegidos):
+
+- `GET /export/csv`
+- `GET /export/pdf`
+
+Backup (protegidos):
+
+- `GET /backup`
+- `POST /backup/restore`
