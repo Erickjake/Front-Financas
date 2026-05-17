@@ -8,15 +8,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useDashboardSummary } from "@/features/dashboard/hooks/use-dashboard-summary";
-
-const currencyFormatter = new Intl.NumberFormat("pt-BR", {
-  style: "currency",
-  currency: "BRL",
-});
+import type {
+  DashboardFilters,
+  DashboardSummary,
+} from "@/features/dashboard/types";
+import { currencyFormatter } from "@/lib/formatters";
 
 const cards = [
   {
-    key: "totalIncome" as const,
+    key: "total_income" as const,
     label: "Receitas",
     icon: TrendingUp,
     borderColor: "border-l-emerald-500",
@@ -25,7 +25,7 @@ const cards = [
     valueColor: "text-emerald-700",
   },
   {
-    key: "totalExpense" as const,
+    key: "total_expense" as const,
     label: "Despesas",
     icon: TrendingDown,
     borderColor: "border-l-rose-500",
@@ -44,8 +44,12 @@ const cards = [
   },
 ];
 
-export function SummaryCards() {
-  const { summary, isLoading, error } = useDashboardSummary();
+interface SummaryCardsProps {
+  filters?: DashboardFilters;
+}
+
+export function SummaryCards({ filters }: SummaryCardsProps) {
+  const { summary, isLoading, error } = useDashboardSummary(filters);
 
   if (isLoading) {
     return (
@@ -105,7 +109,9 @@ export function SummaryCards() {
               <CardTitle
                 className={`mt-2 text-2xl font-bold tabular-nums ${valueColor}`}
               >
-                {currencyFormatter.format(Number(summary[key]) || 0)}
+                {currencyFormatter.format(
+                  (summary[key as keyof DashboardSummary] as number) || 0,
+                )}
               </CardTitle>
             </CardHeader>
           </Card>

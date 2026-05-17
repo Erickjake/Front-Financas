@@ -1,0 +1,11 @@
+{
+  "ai": "gemini",
+  "branch_numbering": "sequential",
+  "context_file": "GEMINI.md",
+  "here": true,
+  "integration": "gemini",
+  "language": "pt-BR",
+  "script": "ps",
+  "speckit_version": "0.8.5.dev0",
+  "strict_language_enforcement": true
+}

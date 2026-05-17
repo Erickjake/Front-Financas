@@ -1,10 +1,10 @@
-export type TransactionType = "income" | "expense";
+export type TransactionType = "RECEITA" | "DESPESA" | "INCOME" | "EXPENSE";
 
 export type Transaction = {
   id: string;
-  description: string;
+  title: string;
   amount: number;
   date: string;
-  category: string;
   type: TransactionType;
+  category?: string;
 };

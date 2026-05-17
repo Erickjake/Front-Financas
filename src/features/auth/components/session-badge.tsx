@@ -5,12 +5,12 @@ export function SessionBadge() {
   const { session, isLoading } = useAuthSession();
 
   if (isLoading) {
-    return <Badge variant="outline">Carregando sessao...</Badge>;
+    return <Badge variant="outline">Carregando sessão...</Badge>;
   }
 
   if (!session.isAuthenticated || !session.user) {
-    return <Badge variant="destructive">Sessao desconectada</Badge>;
+    return <Badge variant="destructive">Sessão desconectada</Badge>;
   }
 
-  return <Badge variant="secondary">Ola, {session.user.name}</Badge>;
+  return <Badge variant="secondary">Olá, {session.user.name}</Badge>;
 }

@@ -1,10 +1,22 @@
-export type DashboardKpi = {
-  label: string;
-  value: string;
-  trend: string;
+export type DashboardFilters = {
+  date: string; // Formato YYYY-MM
 };
 
 export type DashboardSummary = {
-  period: string;
-  kpis: DashboardKpi[];
+  total_income: number;
+  total_expense: number;
+  balance: number;
+};
+
+export type CategoryReport = {
+  category: string;
+  total: number;
+  percentage: number;
+};
+
+export type MonthlyReport = {
+  date: string; // Formato YYYY-MM
+  income: number;
+  expense: number;
+  balance: number;
 };

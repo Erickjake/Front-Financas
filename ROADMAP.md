@@ -101,9 +101,20 @@ Criterios de pronto:
 - Definir estrategia de versionamento de API e migracao de contratos.
 - Automatizar release notes e checklist de deploy.
 
+## Status atual (atualizado)
+
+| Fase | Status |
+|------|--------|
+| Fase 1 — Base funcional | Concluida |
+| Fase 2 — Dados e autenticacao | Em andamento (API real, proxy auth, `.env.example`) |
+| Fase 3 — Operacao financeira | Parcial (transacoes, dashboard e metas prontos; relatorios e orcamentos em evolucao) |
+| Fase 4 — Qualidade | Inicio (CI, testes unitarios em expansao) |
+| Fase 5 — Escala | Nao iniciada |
+
 ## Proxima entrega recomendada
 
-Priorizar a Fase 1 com foco em duas frentes paralelas:
+Priorizar a conclusao da Fase 3 e o avanco da Fase 4:
 
-- Estruturar rotas e layout navegavel do produto.
-- Conectar os componentes existentes da arquitetura por dominio nessas rotas.
+- Polir telas de relatorios, orcamentos e backup no padrao do dashboard.
+- Expandir cobertura de testes (auth, dashboard, services criticos).
+- Adotar cache de dados (ex.: TanStack Query) nas telas com maior refetch.
